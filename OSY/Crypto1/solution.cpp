@@ -92,6 +92,8 @@ public:
     static void Solve(ACVUTCoin x) {
         /* convert to bit field */
         vector<bool> sequence;
+        uint64_t cnt = 0;
+        /* converts m_Data to bit vector */
         for (uint8_t vec : x->m_Data) {
             uint8_t cur = vec;
             for (int i = 0; i < 8; ++i) {
@@ -100,7 +102,47 @@ public:
             }
         }
 
+        size_t n = sequence.size();
+        int** table = new int*[n + 1];
+        for(size_t i = 0; i <= n; ++i)
+            table[i] = new int[n + 1];
 
+
+        for (size_t k = 0; k < n; ++k) {
+//            cout << k << endl;
+            for (size_t l = 0; l < n; ++l) {
+                if ( n - k < (size_t) x->m_DistMin && n - l < (size_t) x->m_DistMin)
+                    break;
+//                if ( abs(k - l) > x->m_DistMax)
+//                    break;
+                size_t i, j;
+                for (i = 0; i <= n - k; ++i) {
+                    for (j = 0; j <= n - l; ++j) {
+                        if (i==0) {
+                            table[i][j] = (int) j;
+                            continue;
+                        }
+                        if (j==0) {
+                            table[i][j] = (int) i;
+                            continue;
+                        }
+                        if (sequence[i - 1] == sequence[j - 1 + l])
+                            table[i][j] = table[i - 1][j - 1];
+                        else
+                            table[i][j] = 1 + min( min(table[i][j-1], table[i-1][j]), table[i-1][j-1]);
+
+                        }
+                    }
+                if (table[i - 1][j - 1] >= x->m_DistMin && table[i - 1][j - 1] <= x->m_DistMax) {
+                    ++cnt;
+                }
+            }
+        }
+
+        x->m_Count = cnt;
+        for(size_t i = 0; i <= n; ++i)
+            delete [] table[i];
+        delete [] table;
     }
     static void Solve(AFITCoin x) {
 
