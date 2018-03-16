@@ -1,0 +1,4 @@
+/media/heppy/006E2F076E2EF4D6/clion-2017.3.4/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /media/heppy/006E2F076E2EF4D6/School/OSY/Crypto1
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /media/heppy/006E2F076E2EF4D6/School/OSY/Crypto1/cmake-build-debug
